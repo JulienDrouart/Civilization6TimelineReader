@@ -29,6 +29,8 @@
                 echo '<div class="row">';
                 foreach($moments as $keyMoment => $moment)
                 {
+                    $description = str_replace("[ICON_RESOURCE_ANTIQUITY_SITE]","",$moment["InstanceDescription"]);
+                    $description = str_replace("[ICON_RESOURCE_SHIPWRECK]","",$description);
                     echo '<div class="col-sm-2">
                         <div class="card text-bg-'.getDataByType($moment["Type"])["color"].' mb-3" style="max-width: 18rem;">
                             <div class="card-header">
@@ -36,18 +38,16 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title"><i class="fa-solid fa-'.getDataByType($moment["Type"])["icon"].'"></i>&nbsp;'.getDataByType($moment["Type"])["traduction"].'</h5>
-                                <p class="card-text">'.$moment["InstanceDescription"].'</p>
+                                <p class="card-text">'.$description.'</p>
                             </div>
-                            <div class="card-footer bg-transparent border-success">
+                            <div class="card-footer bg-transparent border-'.getDataByType($moment["Type"])["color"].'">
                                 <i class="fa-solid fa-'.getEraById($moment["GameEra"])["icon"].'"></i>&nbsp;'.getEraById($moment["GameEra"])["libelle"].'
                             </div>
                         </div>
                     </div>';
                 }
                 echo '</div>';
-                echo '<pre>'; print_r($moments); echo '</pre>'; die('<br>stop');
             }
-            echo '<pre>'; print_r($momentPerTour); echo '</pre>'; die('<br>stop');
         }
 
     ?>
