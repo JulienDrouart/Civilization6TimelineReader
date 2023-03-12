@@ -1,21 +1,54 @@
 <html>
 
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-</head>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
 
-<body>
-    <div style="margin:20px;" class="mb-3">
-        <form action="index.php" method="post" name="form" id="form" enctype="multipart/form-data">
-            <input class="form-control" style="width:400px;" type="file" name="file" id="formFile">
-            <button type="submit" name="submit" id="submit" class="btn btn-success">Importer</button>
-        </form>
-    </div>
-</body>
+    <body>
+        <div style="margin:20px;" class="mb-3">
+            <form action="index.php" method="post" name="form" id="form" enctype="multipart/form-data">
+                <input class="form-control" style="width:400px;" type="file" name="file" id="formFile">
+                <button type="submit" name="submit" id="submit" class="btn btn-success">Importer</button>
+            </form>
+        </div>
+    </body>
 
+    <?php
+        if(count($_FILES) > 0)
+        {
+            foreach($content["Moments"] as $moment)
+            {
+                $momentPerTour[$moment["Turn"]][] = $moment;
+            }
+            foreach($momentPerTour as $tour => $moments)
+            {
+                
+                echo "<div style='text-align: center;font-size:20'><b>TOUR : ".$tour."</b></div><hr>";
+                echo '<div class="row">';
+                foreach($moments as $keyMoment => $moment)
+                {
+                    echo '<div class="col-sm-2">
+                        <div class="card text-bg-'.getDataByType($moment["Type"])["color"].' mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                '.$playersList[$moment["ActingPlayer"]]["CivilizationDescription"].' - '.$playersList[$moment["ActingPlayer"]]["LeaderName"].'
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fa-solid fa-'.getDataByType($moment["Type"])["icon"].'"></i>&nbsp;'.getDataByType($moment["Type"])["traduction"].'</h5>
+                                <p class="card-text">'.$moment["InstanceDescription"].'</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-success">
+                                <i class="fa-solid fa-'.getEraById($moment["GameEra"])["icon"].'"></i>&nbsp;'.getEraById($moment["GameEra"])["libelle"].'
+                            </div>
+                        </div>
+                    </div>';
+                }
+                echo '</div>';
+                echo '<pre>'; print_r($moments); echo '</pre>'; die('<br>stop');
+            }
+            echo '<pre>'; print_r($momentPerTour); echo '</pre>'; die('<br>stop');
+        }
 
-
-
-
+    ?>
 </html>
